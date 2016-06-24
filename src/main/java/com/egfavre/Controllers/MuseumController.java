@@ -49,8 +49,14 @@ public class MuseumController {
         }
     }
 
-    @RequestMapping (path = "/", method =RequestMethod.GET)
+    @RequestMapping (path = "/", method = RequestMethod.GET)
     public String home (HttpSession session) {
         return "home";
+    }
+
+    @RequestMapping (path = "/gallery", method = RequestMethod.GET)
+    public String gallery (HttpSession session) {
+
+        return "gallery";
     }
 }
