@@ -58,15 +58,17 @@ public class MuseumController {
 
     @RequestMapping (path = "/gallery", method = RequestMethod.GET)
     public String gallery (HttpSession session, Model model, Integer id) {
-        Boolean firstPage = true;
-        Boolean lastPage = false;
-        if (id == null){
+        if (id == null) {
             id = 1;
         }
+
+        Boolean firstPage = true;
+        Boolean lastPage = false;
 
         if (id !=  1){
             firstPage = false;
         }
+
 
         String lastIdStr = String.valueOf(pictures.count());
         if (id == Integer.valueOf(lastIdStr)){
@@ -74,6 +76,7 @@ public class MuseumController {
         }
 
         Picture currentPicture = pictures.findById(id);
+
         model.addAttribute("currentPicture", currentPicture);
 
         return "gallery";

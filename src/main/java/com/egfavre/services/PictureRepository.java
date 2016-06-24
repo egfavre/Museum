@@ -8,4 +8,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface PictureRepository extends CrudRepository<Picture, Integer> {
     public Picture findById(Integer id);
+    public Picture findByTitle(String title);
 }
