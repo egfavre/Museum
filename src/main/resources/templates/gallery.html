@@ -5,6 +5,23 @@
     <title>Museum</title>
 </head>
 <body>
-gallery goes here
+
+{{^firstPage}}
+<form action="/previous" method="post">
+    <button type="submit">Previous</button>
+</form>
+{{/firstPage}}
+
+{{^lastPage}}
+<form action="/next" method="post">
+    <button type="submit">Next</button>
+</form>
+{{/lastPage}}
+
+{{#currentPicture}}
+<h2>{{title}}</h2>
+<img src="{{url}}" alt="{{title}}" style="width:304px;height:228px;">
+{{/currentPicture}}
+
 </body>
 </html>

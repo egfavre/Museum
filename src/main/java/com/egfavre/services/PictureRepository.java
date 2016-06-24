@@ -7,4 +7,5 @@ import org.springframework.data.repository.CrudRepository;
  * Created by user on 6/24/16.
  */
 public interface PictureRepository extends CrudRepository<Picture, Integer> {
+    public Picture findById(Integer id);
 }

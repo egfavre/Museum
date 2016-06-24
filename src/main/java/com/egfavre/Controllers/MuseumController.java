@@ -2,8 +2,10 @@ package com.egfavre.Controllers;
 
 import com.egfavre.entities.Picture;
 import com.egfavre.services.PictureRepository;
+import org.springframework.beans.factory.access.BootstrapException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -55,7 +57,24 @@ public class MuseumController {
     }
 
     @RequestMapping (path = "/gallery", method = RequestMethod.GET)
-    public String gallery (HttpSession session) {
+    public String gallery (HttpSession session, Model model, Integer id) {
+        Boolean firstPage = true;
+        Boolean lastPage = false;
+        if (id == null){
+            id = 1;
+        }
+
+        if (id !=  1){
+            firstPage = false;
+        }
+
+        String lastIdStr = String.valueOf(pictures.count());
+        if (id == Integer.valueOf(lastIdStr)){
+            lastPage = true;
+        }
+
+        Picture currentPicture = pictures.findById(id);
+        model.addAttribute("currentPicture", currentPicture);
 
         return "gallery";
     }
