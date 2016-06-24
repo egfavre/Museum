@@ -6,8 +6,10 @@ import org.springframework.beans.factory.access.BootstrapException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -58,27 +60,22 @@ public class MuseumController {
 
     @RequestMapping (path = "/gallery", method = RequestMethod.GET)
     public String gallery (HttpSession session, Model model, Integer id) {
-        if (id == null) {
+        if (id == null){
             id = 1;
         }
-
-        Boolean firstPage = true;
-        Boolean lastPage = false;
-
-        if (id !=  1){
-            firstPage = false;
-        }
-
-
-        String lastIdStr = String.valueOf(pictures.count());
-        if (id == Integer.valueOf(lastIdStr)){
-            lastPage = true;
-        }
-
         Picture currentPicture = pictures.findById(id);
 
         model.addAttribute("currentPicture", currentPicture);
 
         return "gallery";
+    }
+
+    @RequestMapping (path = "/next", method = RequestMethod.POST)
+    public String next (HttpSession session, Integer currentId){
+        if (currentId == null){
+            currentId = 1;
+        }
+        currentId = currentId++;
+        return "redirect:/gallery";
     }
 }
