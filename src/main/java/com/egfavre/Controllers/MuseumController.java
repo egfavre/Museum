@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
@@ -28,13 +29,14 @@ public class MuseumController {
     @PostConstruct
     public void init() throws FileNotFoundException {
         if (pictures.count() == 0){
-            File pictureText = new File("MuseumProjectPictures.txt");
+            File pictureText = new File("pictures.tsv");
             Scanner scanner =  new Scanner (pictureText);
 
             scanner.nextLine();
+
             while (scanner.hasNextLine()) {
                 String pictureDetails = scanner.nextLine();
-                String[] fields = pictureDetails.split("\\|");
+                String[] fields = pictureDetails.split("\t");
                 String source = fields[0];
                 String title = fields[1];
                 String url = fields[2];

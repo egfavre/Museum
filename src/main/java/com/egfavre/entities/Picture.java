@@ -24,7 +24,7 @@ public class Picture {
     @Column(nullable = false)
     String artist;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     String description;
 
     public Picture() {
