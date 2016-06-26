@@ -96,16 +96,47 @@ public class MuseumController {
 
     @RequestMapping (path = "/signIn", method = RequestMethod.POST)
     public String login(HttpSession session, String username, String password) throws Exception {
-        User user = users.findByName(username);
+        User user = users.findByUsername(username);
         if (user == null){
-            user = new User(username, PasswordStorage.createHash(password));
-            users.save(user);
+            return "redirect:/register";
         }
         else if (!PasswordStorage.verifyPassword(password, user.getPassword())){
             throw new Exception("wrong password");
         }
 
         session.setAttribute("username", username);
+        return "redirect:/gallery";
+    }
+
+    @RequestMapping (path = "/register", method = RequestMethod.GET)
+    public String register (HttpSession session) {
+        return "register";
+    }
+
+    @RequestMapping (path = "/registerSubmit", method = RequestMethod.POST)
+    public String register (HttpSession session, String username, String password, String firstname, String lastname, String address, String city, String state, int zipcode, String phone, String email) throws PasswordStorage.CannotPerformOperationException {
+//        Boolean isSubscribe = false;
+//        Boolean isEvents = false;
+//        Boolean isVolunteer = false;
+//        Boolean isDonate = false;
+//
+//        if (subscribe.equals("subscribe")){
+//            isSubscribe = true;
+//        }
+//        if (events.equals("events")){
+//            isEvents = true;
+//        }
+//        if (volunteer.equals("volunteer")){
+//            isVolunteer = true;
+//        }
+//        if (donate.equals("donate")){
+//            isDonate = true;
+//        }
+
+        User user = new User(username, password, firstname, lastname, address, city, state, zipcode,phone, email);
+        session.setAttribute("username", username);
+        users.save(user);
+
         return "redirect:/gallery";
     }
 
