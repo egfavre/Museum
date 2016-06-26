@@ -59,23 +59,10 @@ public class MuseumController {
     }
 
     @RequestMapping (path = "/gallery", method = RequestMethod.GET)
-    public String gallery (HttpSession session, Model model, Integer id) {
-        if (id == null){
-            id = 1;
-        }
-        Picture currentPicture = pictures.findById(id);
-
-        model.addAttribute("currentPicture", currentPicture);
-
+    public String gallery (HttpSession session, Model model) {
+        Iterable<Picture> pictureList;
+        pictureList = pictures.findAll();
+        model.addAttribute("pictureList", pictureList);
         return "gallery";
-    }
-
-    @RequestMapping (path = "/next", method = RequestMethod.POST)
-    public String next (HttpSession session, Integer currentId){
-        if (currentId == null){
-            currentId = 1;
-        }
-        currentId = currentId++;
-        return "redirect:/gallery";
     }
 }

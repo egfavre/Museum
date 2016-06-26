@@ -6,23 +6,12 @@
 </head>
 <body>
 
-{{^firstPage}}
-<form action="/previous" method="post">
-    <button type="submit">Previous</button>
-</form>
-{{/firstPage}}
 
-{{^lastPage}}
-<form action="/next" method="post">
-    <button type="submit">Next</button>
-</form>
-{{/lastPage}}
-
-{{#currentPicture}}
+{{#pictureList}}
 <h2>{{title}}</h2>
 <img src="{{url}}" alt="{{title}}" style="width:304px;height:228px;">
 <input type="hidden" name="id" value="{{id}}">
-{{/currentPicture}}
+{{/pictureList}}
 
 </body>
 </html>
