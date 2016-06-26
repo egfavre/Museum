@@ -134,9 +134,8 @@ public class MuseumController {
         String username = (String) session.getAttribute("username");
         User user = users.findByUsername(username);
         Picture picture = pictures.findById(pictId);
-
         Comment comment = new Comment(commentText, user, picture);
         comments.save(comment);
-        return "redirect:/";
+        return "redirect:/picture/?id=1";
     }
 }
