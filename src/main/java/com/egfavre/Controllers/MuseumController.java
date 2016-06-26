@@ -62,7 +62,13 @@ public class MuseumController {
     public String gallery (HttpSession session, Model model) {
         Iterable<Picture> pictureList;
         pictureList = pictures.findAll();
-        model.addAttribute("pictureList", pictureList);
+        model.addAttribute("picture_list", pictureList);
         return "gallery";
+    }
+    @RequestMapping (path = "/picture", method = RequestMethod.GET)
+    public String picture (HttpSession session, Model model, int id) {
+        Picture currentPicture =  pictures.findById(id);
+        model.addAttribute("current_picture", currentPicture);
+        return "picture";
     }
 }
