@@ -1,7 +1,11 @@
 package com.egfavre.Controllers;
 
 import com.egfavre.entities.Picture;
+import com.egfavre.entities.User;
+import com.egfavre.services.CommentRepository;
 import com.egfavre.services.PictureRepository;
+import com.egfavre.services.UserRepository;
+import com.egfavre.utils.PasswordStorage;
 import org.springframework.beans.factory.access.BootstrapException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +33,10 @@ public class MuseumController {
 
     @Autowired
     PictureRepository pictures;
+    @Autowired
+    UserRepository users;
+    @Autowired
+    CommentRepository comments;
 
     @PostConstruct
     public void init() throws FileNotFoundException {
@@ -75,9 +83,9 @@ public class MuseumController {
         return "picture";
     }
 
-    @RequestMapping (path = "/login", method = RequestMethod.POST)
+    @RequestMapping (path = "/login", method = RequestMethod.GET)
     public String login (HttpSession session) {
-        return "redirect:/login";
+        return "loginReg";
     }
 
     @RequestMapping (path = "/logout", method = RequestMethod.POST)
@@ -85,4 +93,20 @@ public class MuseumController {
         session.invalidate();
         return "redirect:/";
     }
+
+    @RequestMapping (path = "/signIn", method = RequestMethod.POST)
+    public String login(HttpSession session, String username, String password) throws Exception {
+        User user = users.findByName(username);
+        if (user == null){
+            user = new User(username, PasswordStorage.createHash(password));
+            users.save(user);
+        }
+        else if (!PasswordStorage.verifyPassword(password, user.getPassword())){
+            throw new Exception("wrong password");
+        }
+
+        session.setAttribute("username", username);
+        return "redirect:/gallery";
+    }
+
 }
