@@ -162,8 +162,27 @@ public class MuseumController {
     }
 
     @RequestMapping(path = "/addComment", method = RequestMethod.GET)
-    public String addComment(HttpSession session, Model model, Integer id){
+    public String addComment(HttpSession session, Model model, Integer id) throws Exception {
+        String username = (String) session.getAttribute("username");
+        if (username == null){
+            throw new Exception("You must be logged in to add a comment.");
+        }
+
+        Picture currentPicture =  pictures.findById(id);
+
+        model.addAttribute("currentPicture", currentPicture);
         return"addComment";
+    }
+
+    @RequestMapping (path = "/add", method = RequestMethod.POST)
+    public String add (HttpSession session, String newComment, Integer id){
+        String username = (String) session.getAttribute("username");
+        User user = users.findByUsername(username);
+        Picture picture = pictures.findById(id);
+
+        Comment comment = new Comment(newComment, user, picture);
+        comments.save(comment);
+        return "redirect:/gallery";
     }
 
 }
