@@ -11,6 +11,14 @@
 <img src="{{url}}" alt="{{title}}" style="width:304px;height:228px;"></a>
 {{/current_picture}}
 
+<form action="/addComment", method="post">
+    <button type="submit">Add Comment</button>
+</form>
+
+<form action="/updateComment", method="post">
+    <button type="submit">Edit Comment</button>
+</form>
+
 <form action="/login" method="post">
     <button type="submit">Login</button>
 </form>
