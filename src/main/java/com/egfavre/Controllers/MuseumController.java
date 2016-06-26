@@ -68,7 +68,21 @@ public class MuseumController {
     @RequestMapping (path = "/picture", method = RequestMethod.GET)
     public String picture (HttpSession session, Model model, int id) {
         Picture currentPicture =  pictures.findById(id);
+        Iterable<Picture> pictureList;
+        pictureList = pictures.findAll();
+        model.addAttribute("picture_list", pictureList);
         model.addAttribute("current_picture", currentPicture);
         return "picture";
+    }
+
+    @RequestMapping (path = "/login", method = RequestMethod.POST)
+    public String login (HttpSession session) {
+        return "redirect:/login";
+    }
+
+    @RequestMapping (path = "/logout", method = RequestMethod.POST)
+    public String logout (HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }
