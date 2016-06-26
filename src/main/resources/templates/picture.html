@@ -9,13 +9,17 @@
 {{#current_picture}}
 <h2>id:{{id}}--{{title}}</h2>
 <img src="{{url}}" alt="{{title}}" style="width:304px;height:228px;">
-{{/current_picture}}
-
 <form action="/addComment" method="POST">
-    <input type="number" name="pictId" placeholder="Type Picture Id here.">
     <input type="text" name="commentText" placeholder="Type your comment here.">
+    <input type="hidden" name="pictId" value={{id}}>
     <button type="submit">Add comment</button>
 </form>
+
+<ol>{{#commentList}}
+<li>{{comment}}</li>
+    {{/commentList}}</ol>
+
+{{/current_picture}}
 
 <form action="/login" method="GET">
     <button type="submit">Login</button>

@@ -83,8 +83,10 @@ public class MuseumController {
         Iterable<Picture> pictureList;
         pictureList = pictures.findAll();
         Picture currentPicture = pictures.findById(id);
+        Iterable<Comment> commentList = comments.findByPicture(currentPicture);
         model.addAttribute("picture_list", pictureList);
         model.addAttribute("current_picture", currentPicture);
+        model.addAttribute("commentList", commentList);
         return "picture";
     }
 
