@@ -1,5 +1,6 @@
 package com.egfavre.Controllers;
 
+import com.egfavre.entities.Comment;
 import com.egfavre.entities.Picture;
 import com.egfavre.entities.User;
 import com.egfavre.services.CommentRepository;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
@@ -78,8 +80,27 @@ public class MuseumController {
         Picture currentPicture =  pictures.findById(id);
         Iterable<Picture> pictureList;
         pictureList = pictures.findAll();
+
+        Boolean loggedIn = false;
+        String username = (String) session.getAttribute("username");
+        if (username != null){
+            loggedIn = true;
+        }
+        Iterable<Comment> commentList;
+        commentList = comments.findByPicture(currentPicture);
+
+        Boolean userComment = false;
+        HashMap<Comment, Boolean>commentHashmap = new HashMap<>();
+        for (Comment comment:commentList) {
+            if (comment.getUser().getUsername().equals(username)){
+                userComment = true;
+            }
+            commentHashmap.put(comment, userComment);
+        }
         model.addAttribute("picture_list", pictureList);
         model.addAttribute("current_picture", currentPicture);
+        model.addAttribute("commentList", commentList);
+        model.addAttribute("commentHashmap", commentHashmap);
         return "picture";
     }
 
@@ -138,6 +159,11 @@ public class MuseumController {
         users.save(user);
 
         return "redirect:/gallery";
+    }
+
+    @RequestMapping(path = "/addComment", method = RequestMethod.GET)
+    public String addComment(HttpSession session, Model model, Integer id){
+        return"addComment";
     }
 
 }
