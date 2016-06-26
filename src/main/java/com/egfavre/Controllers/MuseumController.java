@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -75,32 +77,14 @@ public class MuseumController {
         model.addAttribute("picture_list", pictureList);
         return "gallery";
     }
+
     @RequestMapping (path = "/picture", method = RequestMethod.GET)
     public String picture (HttpSession session, Model model, int id) {
-        Picture currentPicture =  pictures.findById(id);
         Iterable<Picture> pictureList;
         pictureList = pictures.findAll();
-
-        Boolean loggedIn = false;
-        String username = (String) session.getAttribute("username");
-        if (username != null){
-            loggedIn = true;
-        }
-        Iterable<Comment> commentList;
-        commentList = comments.findByPicture(currentPicture);
-
-        Boolean userComment = false;
-        HashMap<Comment, Boolean>commentHashmap = new HashMap<>();
-        for (Comment comment:commentList) {
-            if (comment.getUser().getUsername().equals(username)){
-                userComment = true;
-            }
-            commentHashmap.put(comment, userComment);
-        }
+        Picture currentPicture = pictures.findById(id);
         model.addAttribute("picture_list", pictureList);
         model.addAttribute("current_picture", currentPicture);
-        model.addAttribute("commentList", commentList);
-        model.addAttribute("commentHashmap", commentHashmap);
         return "picture";
     }
 
@@ -136,24 +120,6 @@ public class MuseumController {
 
     @RequestMapping (path = "/registerSubmit", method = RequestMethod.POST)
     public String register (HttpSession session, String username, String password, String firstname, String lastname, String address, String city, String state, int zipcode, String phone, String email) throws PasswordStorage.CannotPerformOperationException {
-//        Boolean isSubscribe = false;
-//        Boolean isEvents = false;
-//        Boolean isVolunteer = false;
-//        Boolean isDonate = false;
-//
-//        if (subscribe.equals("subscribe")){
-//            isSubscribe = true;
-//        }
-//        if (events.equals("events")){
-//            isEvents = true;
-//        }
-//        if (volunteer.equals("volunteer")){
-//            isVolunteer = true;
-//        }
-//        if (donate.equals("donate")){
-//            isDonate = true;
-//        }
-
         User user = new User(username, PasswordStorage.createHash(password), firstname, lastname, address, city, state, zipcode,phone, email);
         session.setAttribute("username", username);
         users.save(user);
@@ -161,28 +127,14 @@ public class MuseumController {
         return "redirect:/gallery";
     }
 
-    @RequestMapping(path = "/addComment", method = RequestMethod.GET)
-    public String addComment(HttpSession session, Model model, Integer id) throws Exception {
-        String username = (String) session.getAttribute("username");
-        if (username == null){
-            throw new Exception("You must be logged in to add a comment.");
-        }
-
-        Picture currentPicture =  pictures.findById(id);
-
-        model.addAttribute("currentPicture", currentPicture);
-        return"addComment";
-    }
-
-    @RequestMapping (path = "/add", method = RequestMethod.POST)
-    public String add (HttpSession session, String newComment, Integer id){
+    @RequestMapping (path = "/addComment", method = RequestMethod.POST)
+    public String addComment (HttpSession session, String commentText, Integer pictId){
         String username = (String) session.getAttribute("username");
         User user = users.findByUsername(username);
-        Picture picture = pictures.findById(id);
+        Picture picture = pictures.findById(pictId);
 
-        Comment comment = new Comment(newComment, user, picture);
+        Comment comment = new Comment(commentText, user, picture);
         comments.save(comment);
-        return "redirect:/gallery";
+        return "redirect:/";
     }
-
 }

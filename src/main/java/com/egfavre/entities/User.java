@@ -42,12 +42,6 @@ public class User {
     @Column(nullable = false)
     String email;
 
-//    Boolean isSubscribed;
-//    Boolean isEvents;
-//    Boolean isVolunteer;
-//    Boolean isDonate;
-
-
     public User() {
     }
 
@@ -68,31 +62,15 @@ public class User {
         return id;
     }
 
-    public User(String username, String password, String firstname, String lastname, String address, String city, int zipcode, String phone, String email, Boolean isSubscribed, Boolean isEvents, Boolean isVolunteer, Boolean isDonate) {
-        this.username = username;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
-        this.city = city;
-        this.zipcode = zipcode;
-        this.phone = phone;
-        this.email = email;
-//        this.isSubscribed = isSubscribed;
-//        this.isEvents = isEvents;
-//        this.isVolunteer = isVolunteer;
-//        this.isDonate = isDonate;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getName() {
+    public String getUsername() {
         return username;
     }
 
-    public void setName(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -136,6 +114,14 @@ public class User {
         this.city = city;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public int getZipcode() {
         return zipcode;
     }
@@ -159,60 +145,4 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    //    public Boolean getSubscribe() {
-//        return isSubscribed;
-//    }
-//
-//    public void setSubscribe(Boolean subscribe) {
-//        this.isSubscribed = subscribe;
-//    }
-//
-//    public Boolean getSubscribed() {
-//        return isSubscribed;
-//    }
-//
-//    public void setSubscribed(Boolean subscribed) {
-//        isSubscribed = subscribed;
-//    }
-//
-//    public Boolean getEvents() {
-//        return isEvents;
-//    }
-//
-//    public void setEvents(Boolean events) {
-//        isEvents = events;
-//    }
-//
-//    public Boolean getVolunteer() {
-//        return isVolunteer;
-//    }
-//
-//    public void setVolunteer(Boolean volunteer) {
-//        isVolunteer = volunteer;
-//    }
-//
-//    public Boolean getDonate() {
-//        return isDonate;
-//    }
-//
-//    public void setDonate(Boolean donate) {
-//        isDonate = donate;
-//    }
 }

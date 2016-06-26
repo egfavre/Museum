@@ -7,28 +7,28 @@
 <body>
 
 {{#current_picture}}
-<h2>{{title}}</h2>
-<img src="{{url}}" alt="{{title}}" style="width:304px;height:228px;"></a>
+<h2>id:{{id}}--{{title}}</h2>
+<img src="{{url}}" alt="{{title}}" style="width:304px;height:228px;">
 {{/current_picture}}
 
-<form action="/addComment", method="get">
-    <button type="submit">Add Comment</button>
+<form action="/addComment" method="POST">
+    <input type="number" name="pictId" placeholder="Type Picture Id here.">
+    <input type="text" name="commentText" placeholder="Type your comment here.">
+    <button type="submit">Add comment</button>
 </form>
 
-<form action="/updateComment", method="get">
-    <button type="submit">Edit Comment</button>
-</form>
-
-<form action="/login" method="get">
+<form action="/login" method="GET">
     <button type="submit">Login</button>
 </form>
 
-<form action="/logout" method="post">
+<form action="/logout" method="POST">
     <button type="submit">Logout</button>
 </form>
 
+
+
 {{#picture_list}}
-<a href="/picture/?id={{id}}"><h2>{{title}}</h2>
+<a href="/picture/?id={{id}}">{{title}}
     <img src="{{url}}" alt="{{title}}" style="width:30px;height:23px;"></a>
 {{/picture_list}}
 
