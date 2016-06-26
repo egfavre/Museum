@@ -47,6 +47,10 @@ public class User {
 //    Boolean isVolunteer;
 //    Boolean isDonate;
 
+
+    public User() {
+    }
+
     public User(String username, String password, String firstname, String lastname, String address, String city, String state, int zipcode, String phone, String email) {
         this.username = username;
         this.password = password;

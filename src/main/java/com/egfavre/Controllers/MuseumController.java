@@ -133,7 +133,7 @@ public class MuseumController {
 //            isDonate = true;
 //        }
 
-        User user = new User(username, password, firstname, lastname, address, city, state, zipcode,phone, email);
+        User user = new User(username, PasswordStorage.createHash(password), firstname, lastname, address, city, state, zipcode,phone, email);
         session.setAttribute("username", username);
         users.save(user);
 
