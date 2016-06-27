@@ -130,12 +130,39 @@ public class MuseumController {
     }
 
     @RequestMapping (path = "/addComment", method = RequestMethod.POST)
-    public String addComment (HttpSession session, String commentText, Integer pictId){
+    public String addComment (HttpSession session, String commentText, Integer pictId) throws Exception {
         String username = (String) session.getAttribute("username");
         User user = users.findByUsername(username);
+
+        if (username == null){
+            throw new Exception("you must log in to use this function.");
+        }
         Picture picture = pictures.findById(pictId);
-        Comment comment = new Comment(commentText, user, picture);
+        String author = username;
+        Comment comment = new Comment(commentText, author, user, picture);
         comments.save(comment);
-        return "redirect:/picture/?id=1";
+        int commentId = comment.getCommentId();
+
+        return "redirect:/";
+    }
+
+    @RequestMapping (path = "/editComment", method = RequestMethod.POST)
+    public String editComment(HttpSession session, String updateText, int commentId, int pictId) throws Exception {
+        String username = (String) session.getAttribute("username");
+
+        User user = users.findByUsername(username);
+        Picture picture = pictures.findById(pictId);
+        Comment updatedComment = new Comment(commentId, updateText, username, user, picture);
+        comments.save(updatedComment);
+        return "redirect:/";
+    }
+
+    @RequestMapping (path = "/deleteComment", method = RequestMethod.POST)
+    public String deleteComment (HttpSession session, int commentId) throws Exception {
+        String username = (String) session.getAttribute("username");
+
+
+        comments.delete(commentId);
+        return "redirect:/";
     }
 }

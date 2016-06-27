@@ -12,8 +12,11 @@ public class Comment {
     @Id
     int commentId;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     String comment;
+
+    @Column(nullable = false)
+    String author;
 
     @ManyToOne
     User user;
@@ -24,8 +27,17 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String comment, User user, Picture picture) {
+    public Comment(String comment, String author, User user, Picture picture) {
         this.comment = comment;
+        this.author = author;
+        this.user = user;
+        this.picture = picture;
+    }
+
+    public Comment(int commentId, String comment, String author, User user, Picture picture) {
+        this.commentId = commentId;
+        this.comment = comment;
+        this.author = author;
         this.user = user;
         this.picture = picture;
     }
@@ -44,6 +56,14 @@ public class Comment {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public User getUser() {

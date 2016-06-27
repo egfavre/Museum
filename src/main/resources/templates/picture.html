@@ -16,7 +16,20 @@
 </form>
 
 <ol>{{#commentList}}
-<li>{{comment}}</li>
+<li>comment id: {{commentId}}--comment author: {{author}}--{{comment}}
+    <form action="/editComment" method="POST"><
+        <input type="number" name="commentId" placeholder="Type comment id here.">
+        <input type="number" name="pictId" placeholder="Type picture id here.">
+        <input type="hidden" name="author" value="{{author}}">
+        <input type="text" name="updateText" placeholder="Edit comment here.">
+        <button type="submit">Update comment</button>
+    </form>
+    <form action="/deleteComment" method="POST">
+        <input type="hidden"name="aurthor" value="{{author}}">
+        <input type="number" name="commentId" placeholder="Type comment id here.">
+        <button type="submit">Delete Comment</button>
+    </form>
+</li>
     {{/commentList}}</ol>
 
 {{/current_picture}}
